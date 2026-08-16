@@ -2,6 +2,15 @@
 # package. The entry is a normal cordis loader entry (id + package name); the
 # browser half is picked up by dsh-client-modules through the package's
 # dsh.client declaration, exactly like the shipped ui-* packages.
+#
+# `inject: [webServer, credentials]` is REQUIRED: the host half's apply()
+# calls ctx.get('webServer') / ctx.get('credentials'), and cordis services
+# are only visible to descendants of the provider — sibling rows must
+# declare the dependency in the loader entry or the get returns undefined.
+# Without the inject, the loader may apply this row before the webserver row
+# resolves (the webserver waits on webStartup), so the /quota/balance route
+# never registers.
 - insert:
     - id: quota-badge
       name: 'dsh-quota-badge'
+      inject: [webServer, credentials]
