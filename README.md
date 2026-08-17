@@ -1,6 +1,6 @@
 # dsh-quota-badge · DeepSeek Harness 余额徽章插件
 
-在 DeepSeek Harness 侧边栏底部（设置按钮上方）实时显示你的 **DeepSeek 账户余额**：
+在 DeepSeek Harness 侧边栏底部（设置按钮上方）实时显示你的 **DeepSeek 账户余额**，并可在 **设置 → 余额监控** 页面查看趋势、调整参数：
 
 ```
 余额 ● 20.99¥ ⟳
@@ -10,9 +10,27 @@
 ```
 
 - **数据源**：DeepSeek 官方余额 API（`GET https://api.deepseek.com/user/balance`，CNY）
-- **刷新**：每 5 秒自动 + 手动刷新按钮
+- **刷新**：自动刷新（间隔可调）+ 手动刷新按钮
 - **无边框、无悬停提示**，风格跟随主题
 - 余额变化时每位数字以**滚轮方式**滚动到新值，方向色（绿升 / 红降）在动画末段渐变为主题原色
+
+### 设置 → 余额监控
+
+设置面板新增「余额监控」页面：
+
+- **余额卡片**：实时余额大数字 + 状态圆点 + 手动刷新 + 最后更新时间 + 查询状态
+- **余额趋势**：Sparkline 曲线（数据由 Host 端按次采样持久化），支持近 30 分钟 / 近 1 小时 / 全部 三个区间，附区间最低 / 最高 / 当前值
+- **参数**（修改立即保存、立即生效）：
+
+| 参数 | 默认 | 说明 |
+| --- | --- | --- |
+| 显示侧边栏余额徽章 | 开 | 隐藏时恢复默认的插件管理按钮 |
+| 自动刷新余额 | 开 | 关闭后不再定时查询 |
+| 自动刷新间隔（秒） | 5 | 范围 3–600 秒 |
+| 显示「高峰/空闲」时段标签 | 开 | 徽章上标注当前时段 |
+| 悬停显示峰谷价格面板 | 开 | 悬停徽章 3 秒展开价格曲线 |
+
+参数与历史数据保存在 `~/.dsh/.quota-badge.json`（历史最多保留 720 条采样，约 1 小时 @5 秒）。
 
 ### 悬停价格坐标系
 
@@ -82,8 +100,8 @@ npm uninstall dsh-quota-badge
 
 | 端 | 文件 | 说明 |
 | --- | --- | --- |
-| Host | `lib/index.js` | Cordis 插件：注册 `GET /quota/balance` 路由，经 `credentials` 解析 `DEEPSEEK_API_KEY`，用 `shell`(curl) 查询官方余额 API，返回 `{ balance, currency, error }` |
-| Client | `lib/client.js` | 浏览器插件 bundle（`window.__ModuleLoader__.load` 格式）：`sidebar.footer.action` 插槽注册徽章 UI，每 5 秒 `fetch('/quota/balance')`，滚轮动画 + 闪烁指示 |
+| Host | `lib/index.js` | Cordis 插件：注册 `GET /quota/balance`（经 `credentials` 解析 `DEEPSEEK_API_KEY`，用全局 fetch 查询官方余额 API，返回 `{ balance, currency, error }`，成功后记录历史采样）、`GET/POST /quota/config`（读写参数，持久化到 `~/.dsh/.quota-badge.json`） |
+| Client | `lib/client.js` | 浏览器插件 bundle（`window.__ModuleLoader__.load` 格式）：`sidebar.footer.action` 插槽注册徽章 UI，`settings.section` 插槽注册「余额监控」设置页；共享 store 驱动滚轮动画、闪烁指示、趋势图与参数联动 |
 | 组合 | `cordis.patch.yml` | 声明 host 加载入口（`dsh.bundle.patch` 机制） |
 
 ## 开发与发布
