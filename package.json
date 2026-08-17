@@ -1,6 +1,6 @@
 {
   "name": "dsh-quota-badge",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "DeepSeek Harness 余额徽章插件：侧边栏实时显示 DeepSeek 账户余额（每 5 秒刷新），数字滚轮动画 + 刷新闪烁指示（上升绿 / 下降红），支持手动刷新。",
   "license": "MIT",
   "type": "module",
