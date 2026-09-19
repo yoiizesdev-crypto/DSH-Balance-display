@@ -92,11 +92,11 @@
 | Web profile（git 检出，现在就能用） | `git clone https://github.com/yoiizesdev-crypto/DSH-Balance-display.git ~/.dsh/profiles/web/node_modules/dsh-quota-badge` | Web profile 由你本人管理，可以直接改；之后「更新」按钮走 git 快进 |
 | Web profile（目录拷贝，现在就能用） | 把仓库目录整个复制成 `~/.dsh/profiles/web/node_modules/dsh-quota-badge`（目录名必须保持一致） | 没有 git 时的兜底；之后「更新」按钮走 tarball 覆盖 |
 | Web profile（包管理器从 git 装，现在就能用） | `cd ~/.dsh/profiles/web && pnpm add github:yoiizesdev-crypto/DSH-Balance-display`（或 `npm install github:yoiizesdev-crypto/DSH-Balance-display`） | 与 npm registry 无关；会把 `dsh-quota-badge` 写进 `dependencies`，之后「更新」按钮按托管安装处理（给升级命令） |
-| Web profile（npm / pnpm registry） | `cd ~/.dsh/profiles/web && npm install dsh-quota-badge@1.6.0`（或 `pnpm add dsh-quota-badge@1.6.0`） | 需要插件已发布到 npm，见下方提示 |
-| 桌面版（应用内插件管理器） | 在应用的插件管理窗口里安装 `dsh-quota-badge@1.6.0` | 只接受 npm registry 规格 + **精确版本**，由应用自带的 pnpm 装进桌面 profile 的 `node_modules`；同样需要已发布到 npm |
+| Web profile（npm / pnpm registry，推荐） | `cd ~/.dsh/profiles/web && npm install dsh-quota-badge@1.6.0`（或 `pnpm add dsh-quota-badge@1.6.0`） | 已发布到 npm；精确版本便于和桌面版插件管理器保持一致 |
+| 桌面版（应用内插件管理器） | 在应用的插件管理窗口里安装 `dsh-quota-badge@1.6.0` | 只接受 npm registry 规格 + **精确版本**，由应用自带的 pnpm 装进桌面 profile 的 `node_modules` |
 | 桌面版（其他任何方式） | **不支持** | 桌面 profile 由 Electron 应用独占管理：`dsh plugin --profile desktop …` 会被拒绝（`profile desktop is managed exclusively by the Electron application`），手工复制进去的文件也会被应用的包事务清理/重写 |
 
-> **尚未发布到 npm**：`https://registry.npmjs.org/dsh-quota-badge` 目前返回 404，所以上面的 registry 行与桌面版插件管理器那一行要等发布后才可用。发布之前：Web profile 用 git 检出、目录拷贝或「包管理器从 git 装」；桌面版要么先用 Web profile，要么等发布后用应用内插件管理器安装。
+> **已发布到 npm**：`dsh-quota-badge@1.6.0`（`https://www.npmjs.com/package/dsh-quota-badge`）。上面的 registry 行与桌面版插件管理器那一行现在都可用；没装 git 的用户走 registry 安装最省事。
 
 ### 2. 在 profile 中启用
 
