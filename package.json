@@ -1,6 +1,6 @@
 {
   "name": "dsh-quota-badge",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "description": "DeepSeek Harness 余额徽章插件：侧边栏实时显示 DeepSeek 账户余额（每 5 秒刷新），数字滚轮动画 + 刷新闪烁指示（上升绿 / 下降红），支持手动刷新。",
   "license": "MIT",
   "type": "module",
@@ -14,6 +14,7 @@
     "lib",
     "cordis.patch.yml",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "dsh": {
@@ -21,15 +22,12 @@
       "patch": "./cordis.patch.yml"
     },
     "client": {
-      "inject": [
-        "@deepseek-ai/dsh-client-runtime"
-      ],
-      "platform": "web"
+      "platform": "web",
+      "immediately": true
     }
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "@deepseek-ai/dsh-client-runtime": "^0.1.0-rc.6"
+    "@deepseek-ai/cordis": "^4.0.2"
   },
   "keywords": [
     "deepseek-harness",
