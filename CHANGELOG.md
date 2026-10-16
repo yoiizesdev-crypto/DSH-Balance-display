@@ -2,6 +2,12 @@
 
 本文件记录 dsh-quota-badge 的用户可见变更。格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.6.3] - 2026-10-16
+
+### 修复
+
+- **彻底移除祖先元素 `:has()` flex-wrap 规则，根治侧边栏异常收缩与遮挡工作区 Bug**：此前针对底栏动作槽注入的 `:has([data-slot="sidebar.footer.action"]){flex-wrap:wrap}` 规则因后代匹配无意命中了 `div._2cIP9G_root`、`div._2cIP9G_footArea` 等纵向（`flex-direction: column`）祖先容器，导致侧边栏在高度受限时横向折行（wrap to next column）并覆盖工作区。现彻底移除该规则，底栏本身即为 `flex-direction: column`，`.q-wrap` 自然垂直独占一行，绝不污染上级容器。
+
 ## [1.6.2] - 2026-10-16
 
 ### 修复
